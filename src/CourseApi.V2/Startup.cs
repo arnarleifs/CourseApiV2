@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CourseApi.V2.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,10 @@ namespace CourseApi.V2
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(CustomExceptionHandler));
+            });
 
             // Add my own DI
             services.AddTransient<ICourseService, CourseService>();
@@ -58,6 +62,7 @@ namespace CourseApi.V2
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using CourseApi.V2.Repositories.Base;
 using CourseApi.V2.Repositories.DAL;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ namespace CourseApi.V2.Repositories
             // Connection string to Sqlite local db file
             var file = Directory.GetCurrentDirectory() + "\\courseapi_db.db";
             services.AddDbContext<CourseDbContext>(options => options.UseSqlite("Filename=" + file));
+
+            services.AddScoped<IDbFactory, DbFactory>();
         }
     }
 }

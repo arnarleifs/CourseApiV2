@@ -118,6 +118,13 @@
 --reference:C:\Users\arnarl\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
 --reference:C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\bin\Debug\netstandard1.6\CourseApi.V2.Models.dll
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Startup.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\DbFactory.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\Disposable.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\IDbFactory.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\IRepository.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\IUnitOfWork.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\RepositoryBase.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Base\UnitOfWork.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\DAL\CourseDbContext.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Implementations\CourseRepository.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\Interfaces\ICourseRepository.cs

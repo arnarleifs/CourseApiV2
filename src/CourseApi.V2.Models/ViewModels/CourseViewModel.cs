@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseApi.V2.Models.DTO
+namespace CourseApi.V2.Models.ViewModels
 {
-    public class CourseDto
+    public class CourseViewModel
     {
         public string CourseId { get; set; }
         public int Semester { get; set; }
