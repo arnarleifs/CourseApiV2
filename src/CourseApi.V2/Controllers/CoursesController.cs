@@ -40,7 +40,7 @@ namespace CourseApi.V2.Controllers
         // PUT api/v1/courses/{id:int}
         [HttpPut]
         [Route("{id:int}", Name = "UpdateCourse")]
-        public IActionResult UpdateCourse(int id, [FromBody]CourseDto value)
+        public IActionResult UpdateCourse(int id, [FromBody]CourseViewModel value)
         {
             courseService.UpdateCourse(id, value);
             return new NoContentResult();
@@ -52,7 +52,7 @@ namespace CourseApi.V2.Controllers
         public IActionResult DeleteCourse(int id)
         {
             courseService.DeleteCourseById(id);
-            return Ok();
+            return StatusCode(204);
         }
 
         [HttpGet]
