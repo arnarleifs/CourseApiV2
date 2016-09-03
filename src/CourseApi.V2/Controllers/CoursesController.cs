@@ -15,9 +15,11 @@ namespace CourseApi.V2.Controllers
     public class CoursesController : Controller
     {
         private readonly ICourseService courseService;
-        public CoursesController(ICourseService courseService)
+        private readonly IStudentService studentService;
+        public CoursesController(ICourseService courseService, IStudentService studentService)
         {
             this.courseService = courseService;
+            this.studentService = studentService;
         }
         // GET api/v1/courses
         [HttpGet]
@@ -59,14 +61,16 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}/students", Name = "GetAllStudentsByCourseId")]
         public IActionResult GetAllStudentsByCourseId(int id)
         {
-            return Ok();
+            var students = studentService.GetAllStudentsByCourseId(id);
+            return new ObjectResult(students);
         }
 
         [HttpPost]
         [Route("{id:int}/students", Name = "AddStudentByCourseId")]
-        public IActionResult AddStudentByCourseId(int id)
+        public IActionResult AddStudentByCourseId(int id, [FromBody]StudentViewModel student)
         {
-            return Ok();
+            studentService.AddStudentByCourseId(id, new StudentDto { Ssn = student.Ssn, Name = student.Name });
+            return StatusCode(201);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace CourseApi.V2.Services
         {
             Repositories.Startup.Initialize(services);
             services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IStudentRegistryRepository, StudentRegistryRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
     }

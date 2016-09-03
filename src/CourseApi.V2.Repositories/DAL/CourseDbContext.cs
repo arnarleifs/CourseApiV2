@@ -11,6 +11,7 @@ namespace CourseApi.V2.Repositories.DAL
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<CourseTemplate> CourseTemplate { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<StudentRegistry> StudentRegistry { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +22,10 @@ namespace CourseApi.V2.Repositories.DAL
                 ct.HasKey(cti => cti.Name));
             builder.Entity<Student>(s =>
                 s.HasKey(si => si.Ssn));
+            builder.Entity<StudentRegistry>(sr =>
+                sr.HasKey(srt => srt.Ssn));
+            builder.Entity<StudentRegistry>(sr =>
+                sr.HasKey(srt => srt.CourseId));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace CourseApi.V2.Filters
             HttpResponse response = context.HttpContext.Response;
             response.StatusCode = (int)status;
             response.ContentType = "application/json";
-            var err = message;
+            var err = context.Exception.Message;
             response.WriteAsync(err);
             context.ExceptionHandled = true;
         }

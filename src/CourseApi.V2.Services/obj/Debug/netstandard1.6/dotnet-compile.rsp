@@ -120,5 +120,7 @@
 --reference:C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Repositories\bin\Debug\netstandard1.6\CourseApi.V2.Repositories.dll
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Startup.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Implementations\CourseService.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Implementations\StudentService.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Interfaces\ICourseService.cs
+C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Interfaces\IStudentService.cs
 C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Services\Properties\AssemblyInfo.cs

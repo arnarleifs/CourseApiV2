@@ -47,6 +47,7 @@ namespace CourseApi.V2
 
             // Add my own DI
             services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<IStudentService, StudentService>();
 
             CourseApi.V2.Services.Startup.Initialize(services);
         }

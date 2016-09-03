@@ -64,5 +64,10 @@ namespace CourseApi.V2.Repositories.Base
         {
             return dbSet.Where(where).FirstOrDefault<T>();
         }
+
+        public DbSet<T> ReturnDbSet()
+        {
+            return dbSet;
+        }
     }
 }

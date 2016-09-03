@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseApi.V2.Repositories.Base
 {
@@ -16,5 +17,6 @@ namespace CourseApi.V2.Repositories.Base
         T Get(Expression<Func<T, bool>> where);
         IEnumerable<T> GetAll();
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+        DbSet<T> ReturnDbSet();
     }
 }

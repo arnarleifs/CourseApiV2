@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CourseApi.V2.Models.DTO;
 using CourseApi.V2.Models.Entities;
+using CourseApi.V2.Models.ViewModels;
 using CourseApi.V2.Repositories.Base;
 using CourseApi.V2.Repositories.Interfaces;
 using CourseApi.V2.Services.Interfaces;
@@ -51,7 +52,7 @@ namespace CourseApi.V2.Services.Implementations
             };
         }
 
-        public void UpdateCourse(int id, CourseDto course)
+        public void UpdateCourse(int id, CourseViewModel course)
         {
             if (id <= 0)
             {
@@ -66,14 +67,31 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new FileNotFoundException();
             }
-            courseRepository.Update(new Course
+            var cor = courseRepository.Get(c => c.Id == id);
+
+            cor.CourseId = course.CourseId;
+            cor.Semester = course.Semester;
+            cor.StartDate = course.StartDate;
+            cor.EndDate = course.EndDate;
+
+            courseRepository.Update(cor);
+
+            unitOfWork.Commit();
+        }
+
+        public void DeleteCourseById(int id)
+        {
+            if (id <= 0)
             {
-                Id = id,
-                CourseId = course.CourseId,
-                Semester = course.Semester,
-                StartDate = course.StartDate,
-                EndDate = course.EndDate
-            });
+                throw new ArgumentOutOfRangeException();
+            }
+            var course = courseRepository.Get(c => c.Id == id);
+            if (course == null)
+            {
+                throw new FileNotFoundException();
+            }
+            courseRepository.Delete(course);
+            unitOfWork.Commit();
         }
     }
 }
