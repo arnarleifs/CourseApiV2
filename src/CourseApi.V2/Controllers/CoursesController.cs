@@ -51,6 +51,7 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}", Name = "DeleteCourse")]
         public IActionResult DeleteCourse(int id)
         {
+            courseService.DeleteCourseById(id);
             return Ok();
         }
 
