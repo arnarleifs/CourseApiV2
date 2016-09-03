@@ -56,6 +56,7 @@
 -r:"C:\Users\arnarl\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll"
 -r:"C:\Users\arnarl\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll"
 "C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\DTO\CourseDto.cs"
+"C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\DTO\CourseExtendedDto.cs"
 "C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\DTO\StudentDto.cs"
 "C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\Entities\Course.cs"
 "C:\Users\arnarl\Desktop\Gögn\RU\5.önn\Vefþjónustur\Verkefni\CourseApi.V2\src\CourseApi.V2.Models\Entities\CourseTemplate.cs"

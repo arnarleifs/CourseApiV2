@@ -12,10 +12,12 @@ namespace CourseApi.V2.Services.Implementations
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository courseRepository;
+        private readonly IStudentService studentService;
         private readonly IUnitOfWork unitOfWork;
-        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork)
+        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork, IStudentService studentService)
         {
             this.courseRepository = courseRepository;
+            this.studentService = studentService;
             this.unitOfWork = unitOfWork;
         }
 
@@ -25,10 +27,21 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new ModelFormatException();
             }
-            return courseRepository.GetMany(c => c.Semester == semester).Select(cd => new CourseDto {CourseId = cd.CourseId, Semester = cd.Semester, StartDate = cd.StartDate, EndDate = cd.EndDate});
+            return
+                courseRepository.GetMany(c => c.Semester == semester)
+                    .Select(
+                        cd =>
+                            new CourseDto
+                            {
+                                CourseId = cd.CourseId,
+                                Semester = cd.Semester,
+                                StartDate = cd.StartDate,
+                                EndDate = cd.EndDate,
+                                NumberOfStudents = studentService.GetAllStudentsByCourseId(cd.Id).ToList().Count
+                            });
         }
 
-        public CourseDto GetCourseById(int id)
+        public CourseExtendedDto GetCourseById(int id)
         {
             if (id <= 0)
             {
@@ -39,12 +52,15 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException();
             }
-            return new CourseDto
+            var students = studentService.GetAllStudentsByCourseId(course.Id).ToList();
+            return new CourseExtendedDto
             {
                 CourseId = course.CourseId,
                 Semester = course.Semester,
                 StartDate = course.StartDate,
-                EndDate = course.EndDate
+                EndDate = course.EndDate,
+                Students = students,
+                NumberOfStudents = students.Count
             };
         }
 

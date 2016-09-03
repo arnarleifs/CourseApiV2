@@ -7,7 +7,7 @@ namespace CourseApi.V2.Services.Interfaces
     public interface ICourseService
     {
         IEnumerable<CourseDto> GetAllCoursesBySemester(int semester);
-        CourseDto GetCourseById(int id);
+        CourseExtendedDto GetCourseById(int id);
         void UpdateCourse(int id, CourseDto course);
         void DeleteCourseById(int id);
     }
