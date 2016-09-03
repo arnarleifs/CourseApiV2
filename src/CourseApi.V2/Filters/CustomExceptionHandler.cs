@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
+using CourseApi.V2.Models.Exceptions;
 
 namespace CourseApi.V2.Filters
 {
@@ -23,12 +19,12 @@ namespace CourseApi.V2.Filters
                 message = "Index was out of range";
                 status = HttpStatusCode.BadRequest;
             }
-            else if (exceptionType == typeof(FileNotFoundException))
+            else if (exceptionType == typeof(NotFoundException))
             {
                 message = "Not found";
                 status = HttpStatusCode.NotFound;
             }
-            else if (exceptionType == typeof(ValidationException))
+            else if (exceptionType == typeof(ModelFormatException))
             {
                 message = "Object is not on the right format";
                 status = HttpStatusCode.PreconditionFailed;
