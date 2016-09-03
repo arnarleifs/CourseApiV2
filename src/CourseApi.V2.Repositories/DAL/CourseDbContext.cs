@@ -24,8 +24,6 @@ namespace CourseApi.V2.Repositories.DAL
                 s.HasKey(si => si.Ssn));
             builder.Entity<StudentRegistry>(sr =>
                 sr.HasKey(srt => srt.Ssn));
-            builder.Entity<StudentRegistry>(sr =>
-                sr.HasKey(srt => srt.CourseId));
         }
     }
 }

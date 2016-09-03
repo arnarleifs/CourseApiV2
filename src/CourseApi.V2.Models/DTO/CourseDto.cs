@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace CourseApi.V2.Models.DTO
 {
+    /// <summary>
+    /// Data transfer object representing the Course object
+    /// </summary>
     public class CourseDto
     {
         public string CourseId { get; set; }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using CourseApi.V2.Models.DTO;
 using CourseApi.V2.Models.Entities;
+using CourseApi.V2.Models.Exceptions;
 using CourseApi.V2.Repositories.Base;
 using CourseApi.V2.Repositories.Interfaces;
 using CourseApi.V2.Services.Interfaces;
@@ -34,11 +32,11 @@ namespace CourseApi.V2.Services.Implementations
             }
             if (courseRepository.Get(c => c.Id == id) == null)
             {
-                throw new FileNotFoundException();
+                throw new NotFoundException();
             }
             if (student.Ssn == null || student.Name == null)
             {
-                throw new ValidationException();
+                throw new ModelFormatException();
             }
             var stud = studentRepository.Get(s => s.Ssn == student.Ssn);
             var course = courseRepository.Get(c => c.Id == id);
@@ -64,7 +62,7 @@ namespace CourseApi.V2.Services.Implementations
             }
             if (courseRepository.Get(c => c.Id == id) == null)
             {
-                throw new FileNotFoundException();
+                throw new NotFoundException();
             }
             var course = courseRepository.Get(c => c.Id == id);
 

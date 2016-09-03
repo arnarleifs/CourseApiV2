@@ -11,27 +11,22 @@ namespace CourseApi.V2.Filters
         public void OnException(ExceptionContext context)
         {
             HttpStatusCode status = HttpStatusCode.InternalServerError;
-            string message = "";
 
             var exceptionType = context.Exception.GetType();
             if (exceptionType == typeof(ArgumentOutOfRangeException))
             {
-                message = "Index was out of range";
                 status = HttpStatusCode.BadRequest;
             }
             else if (exceptionType == typeof(NotFoundException))
             {
-                message = "Not found";
                 status = HttpStatusCode.NotFound;
             }
             else if (exceptionType == typeof(ModelFormatException))
             {
-                message = "Object is not on the right format";
                 status = HttpStatusCode.PreconditionFailed;
             }
             else
             {
-                message = "";
                 status = HttpStatusCode.BadRequest;
             }
 

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using CourseApi.V2.Models.DTO;
-using CourseApi.V2.Models.Entities;
-using CourseApi.V2.Models.ViewModels;
+using CourseApi.V2.Models.Exceptions;
 using CourseApi.V2.Repositories.Base;
 using CourseApi.V2.Repositories.Interfaces;
 using CourseApi.V2.Services.Interfaces;
@@ -27,7 +23,7 @@ namespace CourseApi.V2.Services.Implementations
         {
             if (semester <= 0)
             {
-                throw new ValidationException();
+                throw new ModelFormatException();
             }
             return courseRepository.GetMany(c => c.Semester == semester).Select(cd => new CourseDto {CourseId = cd.CourseId, Semester = cd.Semester, StartDate = cd.StartDate, EndDate = cd.EndDate});
         }
@@ -41,7 +37,7 @@ namespace CourseApi.V2.Services.Implementations
             var course = courseRepository.Get(c => c.Id == id);
             if (course == null)
             {
-                throw new FileNotFoundException();
+                throw new NotFoundException();
             }
             return new CourseDto
             {
@@ -52,7 +48,7 @@ namespace CourseApi.V2.Services.Implementations
             };
         }
 
-        public void UpdateCourse(int id, CourseViewModel course)
+        public void UpdateCourse(int id, CourseDto course)
         {
             if (id <= 0)
             {
@@ -61,11 +57,11 @@ namespace CourseApi.V2.Services.Implementations
             if (course.Semester <= 0 || course.CourseId == null || 
                 course.StartDate == DateTime.MinValue || course.EndDate == DateTime.MinValue)
             {
-                throw new ValidationException();
+                throw new ModelFormatException();
             }
             if (GetCourseById(id) == null)
             {
-                throw new FileNotFoundException();
+                throw new NotFoundException();
             }
             var cor = courseRepository.Get(c => c.Id == id);
 
@@ -88,7 +84,7 @@ namespace CourseApi.V2.Services.Implementations
             var course = courseRepository.Get(c => c.Id == id);
             if (course == null)
             {
-                throw new FileNotFoundException();
+                throw new NotFoundException();
             }
             courseRepository.Delete(course);
             unitOfWork.Commit();
