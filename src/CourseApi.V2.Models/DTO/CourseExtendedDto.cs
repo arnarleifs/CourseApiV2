@@ -10,6 +10,7 @@ namespace CourseApi.V2.Models.DTO
     /// </summary>
     public class CourseExtendedDto : CourseDto
     {
+        public string Name { get; set; }
         public IEnumerable<StudentDto> Students { get; set; }
     }
 }

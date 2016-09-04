@@ -9,5 +9,6 @@ namespace CourseApi.V2.Models.Entities
     {
         public string Ssn { get; set; }
         public string CourseId { get; set; }
+        public int Semester { get; set; }
     }
 }

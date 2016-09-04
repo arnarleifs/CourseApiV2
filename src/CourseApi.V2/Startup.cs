@@ -81,7 +81,7 @@ namespace CourseApi.V2
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUi();
+            app.UseSwaggerUi("docs");
         }
     }
 }

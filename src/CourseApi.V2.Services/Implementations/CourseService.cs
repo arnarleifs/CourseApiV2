@@ -12,11 +12,13 @@ namespace CourseApi.V2.Services.Implementations
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository courseRepository;
+        private readonly ICourseTemplateRepository courseTemplateRepository;
         private readonly IStudentService studentService;
         private readonly IUnitOfWork unitOfWork;
-        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork, IStudentService studentService)
+        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork, IStudentService studentService, ICourseTemplateRepository courseTemplateRepository)
         {
             this.courseRepository = courseRepository;
+            this.courseTemplateRepository = courseTemplateRepository;
             this.studentService = studentService;
             this.unitOfWork = unitOfWork;
         }
@@ -60,7 +62,8 @@ namespace CourseApi.V2.Services.Implementations
                 StartDate = course.StartDate,
                 EndDate = course.EndDate,
                 Students = students,
-                NumberOfStudents = students.Count
+                NumberOfStudents = students.Count,
+                Name = courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId).Name
             };
         }
 
