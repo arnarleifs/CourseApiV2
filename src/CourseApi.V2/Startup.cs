@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CourseApi.V2.Services.Interfaces;
 using CourseApi.V2.Services.Implementations;
+using Swashbuckle.Swagger.Model;
 
 namespace CourseApi.V2
 {
@@ -44,6 +45,21 @@ namespace CourseApi.V2
             {
                 options.Filters.Add(typeof(CustomExceptionHandler));
             });
+            var xmlDocs = Configuration["XML:Output"];
+            
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "Course API",
+                    Description = "An API to search, add and modify courses and students",
+                    TermsOfService = "None"
+                });
+                options.IncludeXmlComments(xmlDocs);
+                options.DescribeAllEnumsAsStrings();
+            });
 
             // Add my own DI
             services.AddTransient<ICourseService, CourseService>();
@@ -64,6 +80,8 @@ namespace CourseApi.V2
 
             app.UseMvc();
 
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
     }
 }

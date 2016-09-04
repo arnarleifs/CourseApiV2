@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace CourseApi.V2.Models.DTO
 {
+    /// <summary>
+    /// Data transfer object for student representation
+    /// </summary>
     public class StudentDto
     {
         public string Ssn { get; set; }
