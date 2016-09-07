@@ -8,7 +8,7 @@ namespace CourseApi.V2.Services.Interfaces
 {
     public interface IStudentService
     {
-        void AddStudentByCourseId(int id, StudentDto student);
+        void AddStudentByCourseId(int id, bool isValid, StudentDto student);
         IEnumerable<StudentDto> GetAllStudentsByCourseId(int id);
     }
 }

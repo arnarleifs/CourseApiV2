@@ -8,7 +8,7 @@ namespace CourseApi.V2.Services.Interfaces
     {
         IEnumerable<CourseDto> GetAllCoursesBySemester(int semester);
         CourseExtendedDto GetCourseById(int id);
-        void UpdateCourse(int id, CourseDto course);
+        void UpdateCourse(int id, bool isValid, CourseDto course);
         void DeleteCourseById(int id);
     }
 }

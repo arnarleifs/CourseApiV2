@@ -36,7 +36,7 @@ namespace CourseApi.V2.Controllers
         // GET api/v1/courses
         [HttpGet]
         [Route("", Name = "GetAllCourses")]
-        public IEnumerable<CourseDto> GetAllCourses(int semester = 20153)
+        public IEnumerable<CourseDto> GetAllCourses(int semester = 20163)
         {
             return courseService.GetAllCoursesBySemester(semester);
         }
@@ -68,7 +68,7 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}", Name = "UpdateCourse")]
         public IActionResult UpdateCourse(int id, [FromBody]CourseViewModel value)
         {
-            courseService.UpdateCourse(id, new CourseDto {CourseId = value.CourseId, Semester = value.Semester, StartDate = value.StartDate, EndDate = value.EndDate});
+            courseService.UpdateCourse(id, ModelState.IsValid, new CourseDto {CourseId = value.CourseId, Semester = value.Semester, StartDate = value.StartDate, EndDate = value.EndDate});
             return new NoContentResult();
         }
 
@@ -110,7 +110,7 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}/students", Name = "AddStudentByCourseId")]
         public IActionResult AddStudentByCourseId(int id, [FromBody]StudentViewModel student)
         {
-            studentService.AddStudentByCourseId(id, new StudentDto { Ssn = student.Ssn, Name = student.Name });
+            studentService.AddStudentByCourseId(id, ModelState.IsValid, new StudentDto { Ssn = student.Ssn, Name = student.Name });
             return StatusCode(201);
         }
     }

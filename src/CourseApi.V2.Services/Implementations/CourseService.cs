@@ -67,14 +67,13 @@ namespace CourseApi.V2.Services.Implementations
             };
         }
 
-        public void UpdateCourse(int id, CourseDto course)
+        public void UpdateCourse(int id, bool isValid, CourseDto course)
         {
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            if (course.Semester <= 0 || course.CourseId == null || 
-                course.StartDate == DateTime.MinValue || course.EndDate == DateTime.MinValue)
+            if (!isValid)
             {
                 throw new ModelFormatException();
             }

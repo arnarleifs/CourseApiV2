@@ -24,7 +24,7 @@ namespace CourseApi.V2.Services.Implementations
             this.courseRepository = courseRepository;
             this.unitOfWork = unitOfWork;
         }
-        public void AddStudentByCourseId(int id, StudentDto student)
+        public void AddStudentByCourseId(int id, bool isValid, StudentDto student)
         {
             if (id <= 0)
             {
@@ -34,7 +34,7 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException();
             }
-            if (student.Ssn == null || student.Name == null)
+            if (!isValid)
             {
                 throw new ModelFormatException();
             }
