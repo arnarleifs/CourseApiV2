@@ -39,7 +39,8 @@ namespace CourseApi.V2.Services.Implementations
                                 Semester = cd.Semester,
                                 StartDate = cd.StartDate,
                                 EndDate = cd.EndDate,
-                                NumberOfStudents = studentService.GetAllStudentsByCourseId(cd.Id).ToList().Count
+                                NumberOfStudents = studentService.GetAllStudentsByCourseId(cd.Id).ToList().Count,
+                                MaxStudents = cd.MaxStudents
                             });
         }
 
@@ -63,7 +64,8 @@ namespace CourseApi.V2.Services.Implementations
                 EndDate = course.EndDate,
                 Students = students,
                 NumberOfStudents = students.Count,
-                Name = courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId).Name
+                Name = courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId).Name,
+                MaxStudents = course.MaxStudents
             };
         }
 
@@ -87,6 +89,7 @@ namespace CourseApi.V2.Services.Implementations
             cor.Semester = course.Semester;
             cor.StartDate = course.StartDate;
             cor.EndDate = course.EndDate;
+            cor.MaxStudents = course.MaxStudents;
 
             courseRepository.Update(cor);
 

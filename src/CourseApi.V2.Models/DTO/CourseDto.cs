@@ -15,5 +15,6 @@ namespace CourseApi.V2.Models.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int NumberOfStudents { get; set; }
+        public int MaxStudents { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace CourseApi.V2.Services.Implementations
         private readonly IStudentRepository studentRepository;
         private readonly IStudentRegistryRepository studentRegistryRepository;
         private readonly ICourseRepository courseRepository;
+        private readonly IWaitingListRepository waitingListRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public StudentService(IStudentRepository studentRepository, IStudentRegistryRepository studentRegistryRepository, ICourseRepository courseRepository, IUnitOfWork unitOfWork)
@@ -76,6 +77,11 @@ namespace CourseApi.V2.Services.Implementations
                     });
 
             return students;
+        }
+
+        public void AddStudentToWaitingListByCourseId(bool isValid, StudentDto student)
+        {
+            
         }
     }
 }

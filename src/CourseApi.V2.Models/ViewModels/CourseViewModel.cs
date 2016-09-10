@@ -19,5 +19,7 @@ namespace CourseApi.V2.Models.ViewModels
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
+        [Required]
+        public int MaxStudents { get; set; }
     }
 }

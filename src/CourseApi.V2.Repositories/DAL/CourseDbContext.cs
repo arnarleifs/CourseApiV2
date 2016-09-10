@@ -12,6 +12,7 @@ namespace CourseApi.V2.Repositories.DAL
         public virtual DbSet<CourseTemplate> CourseTemplate { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<StudentRegistry> StudentRegistry { get; set; }
+        public virtual DbSet<WaitingList> WaitingList { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +25,8 @@ namespace CourseApi.V2.Repositories.DAL
                 s.HasKey(si => si.Ssn));
             builder.Entity<StudentRegistry>(sr =>
                 sr.HasKey(srt => srt.Ssn));
+            builder.Entity<WaitingList>(sr =>
+                sr.HasKey(w => new {w.Ssn, w.CourseId}));
         }
     }
 }

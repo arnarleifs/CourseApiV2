@@ -68,7 +68,7 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}", Name = "UpdateCourse")]
         public IActionResult UpdateCourse(int id, [FromBody]CourseViewModel value)
         {
-            courseService.UpdateCourse(id, ModelState.IsValid, new CourseDto {CourseId = value.CourseId, Semester = value.Semester, StartDate = value.StartDate, EndDate = value.EndDate});
+            courseService.UpdateCourse(id, ModelState.IsValid, new CourseDto {CourseId = value.CourseId, Semester = value.Semester, StartDate = value.StartDate, EndDate = value.EndDate, MaxStudents = value.MaxStudents});
             return new NoContentResult();
         }
 
@@ -111,6 +111,13 @@ namespace CourseApi.V2.Controllers
         public IActionResult AddStudentByCourseId(int id, [FromBody]StudentViewModel student)
         {
             studentService.AddStudentByCourseId(id, ModelState.IsValid, new StudentDto { Ssn = student.Ssn, Name = student.Name });
+            return StatusCode(201);
+        }
+
+        [HttpPost]
+        [Route("{id:int}/waitinglist", Name = "AddStudentToWaitingListByCourseId")]
+        public IActionResult AddStudentToWaitingListByCourseId(int id, [FromBody]StudentViewModel student)
+        {
             return StatusCode(201);
         }
     }
