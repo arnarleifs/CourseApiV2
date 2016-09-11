@@ -12,6 +12,7 @@ namespace CourseApi.V2.Services.Interfaces
         IEnumerable<StudentDto> GetAllStudentsByCourseId(int id);
         void AddStudentToWaitingListByCourseId(int courseId, bool isValid, StudentDto student);
         IEnumerable<StudentDto> GetAllStudentsOnWaitingListByCourseId(int id);
+        void RemoveStudentByCourseId(int courseId, string ssn);
     }
 }
  

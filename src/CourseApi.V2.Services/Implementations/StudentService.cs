@@ -128,6 +128,20 @@ namespace CourseApi.V2.Services.Implementations
                     .Join(studentRepository.ReturnDbSet(), w => w.Ssn, s => s.Ssn, (list, student) => student)
                     .Select(st => new StudentDto {Name = st.Name, Ssn = st.Ssn});
         }
+
+        public void RemoveStudentByCourseId(int courseId, string ssn)
+        {
+            if (ssn == null || courseId <= 0)
+            {
+                throw new ModelFormatException();
+            }
+            var student = studentRepository.Get(s => s.Ssn == ssn);
+            if (student == null)
+            {
+                throw new NotFoundException();
+            }
+
+        }
     }
 }
  

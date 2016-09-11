@@ -115,6 +115,21 @@ namespace CourseApi.V2.Controllers
         }
 
         /// <summary>
+        /// Marks a student as removed, even though he is not removed from the database. This is all assuming that the
+        /// method is provided with a valid id and ssn and the student is found in the system.
+        /// </summary>
+        /// <param name="id">The id of the course</param>
+        /// <param name="ssn">The social security number of the student. This is an icelandic number called 'kennitala', which serves a similar purpose as a social security number.</param>
+        /// <returns>A relevant HTTP status code, depending on how the request was handled.</returns>
+        [HttpDelete]
+        [Route("{id:int}/students/{ssn:string}", Name = "RemoveStudentByCourseId")]
+        public IActionResult RemoveStudentByCourseId(int id, string ssn)
+        {
+            studentService.RemoveStudentByCourseId(id, ssn);
+            return StatusCode(204);
+        }
+
+        /// <summary>
         /// Adds a student on a waiting list which is available for each course, if the course is full the student can decide
         /// to be added to a waiting list
         /// </summary>
