@@ -7,7 +7,10 @@ namespace CourseApi.V2.Models.Exceptions
 {
     public class FullException : Exception
     {
-        public FullException() { }
+        public FullException()
+        {
+            Message = "The resource you are adding to is full.";
+        }
 
         public FullException(string message)
         {

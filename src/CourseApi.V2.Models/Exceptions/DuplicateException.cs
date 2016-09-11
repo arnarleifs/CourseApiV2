@@ -7,7 +7,10 @@ namespace CourseApi.V2.Models.Exceptions
 {
     public class DuplicateException : Exception
     {
-        public DuplicateException() { }
+        public DuplicateException()
+        {
+            Message = "Duplicate entries";
+        }
 
         public DuplicateException(string message)
         {

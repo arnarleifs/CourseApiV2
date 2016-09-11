@@ -113,6 +113,7 @@ namespace CourseApi.V2.Services.Implementations
                 throw new DuplicateException();
             }
             waitingListRepository.Add(new WaitingList {CourseId = courseId, Ssn = student.Ssn});
+            unitOfWork.Commit();
         }
 
         public IEnumerable<StudentDto> GetAllStudentsOnWaitingListByCourseId(int id)
