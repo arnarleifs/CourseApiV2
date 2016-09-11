@@ -18,20 +18,23 @@ namespace CourseApi.V2.Services.Implementations
         private readonly IWaitingListRepository waitingListRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public StudentService(IStudentRepository studentRepository, IStudentRegistryRepository studentRegistryRepository, ICourseRepository courseRepository, IUnitOfWork unitOfWork)
+        public StudentService(IStudentRepository studentRepository, IStudentRegistryRepository studentRegistryRepository, ICourseRepository courseRepository, IWaitingListRepository waitingListRepository, IUnitOfWork unitOfWork)
         {
             this.studentRepository = studentRepository;
             this.studentRegistryRepository = studentRegistryRepository;
             this.courseRepository = courseRepository;
+            this.waitingListRepository = waitingListRepository;
             this.unitOfWork = unitOfWork;
         }
         public void AddStudentByCourseId(int id, bool isValid, StudentDto student)
         {
+            var stud = studentRepository.Get(s => s.Ssn == student.Ssn);
+            var course = courseRepository.Get(c => c.Id == id);
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            if (courseRepository.Get(c => c.Id == id) == null)
+            if (course == null)
             {
                 throw new NotFoundException();
             }
@@ -39,13 +42,15 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new ModelFormatException();
             }
-            var stud = studentRepository.Get(s => s.Ssn == student.Ssn);
-            var course = courseRepository.Get(c => c.Id == id);
             if (stud == null)
             {
-                // Add student if he does not exist in the database
-                studentRepository.Add(new Student {Name = student.Name, Ssn = student.Ssn});
-                unitOfWork.Commit();
+                throw new NotFoundException("Student was not found in the system");
+            }
+            var courseCount = studentRegistryRepository.GetMany(sr => sr.CourseId == course.CourseId && sr.Semester == course.Semester).Count();
+            if (courseCount >= course.MaxStudents)
+            {
+                // The course is full
+                throw new FullException();
             }
             if (studentRegistryRepository.Get(sr => sr.CourseId == course.CourseId && sr.Ssn == student.Ssn) == null)
             {
@@ -79,9 +84,48 @@ namespace CourseApi.V2.Services.Implementations
             return students;
         }
 
-        public void AddStudentToWaitingListByCourseId(bool isValid, StudentDto student)
+        public void AddStudentToWaitingListByCourseId(int courseId, bool isValid, StudentDto student)
         {
-            
+            var course = courseRepository.Get(c => c.Id == courseId);
+            if (!isValid)
+            {
+                throw new ModelFormatException();
+            }
+            if (course == null)
+            {
+                throw new NotFoundException();
+            }
+            if (studentRepository.Get(s => s.Ssn == student.Ssn) == null)
+            {
+                throw new NotFoundException();
+            }
+            if (waitingListRepository.Get(w => w.Ssn == student.Ssn && w.CourseId == courseId) != null)
+            {
+                // He is already in the waiting list
+                throw new DuplicateException();
+            }
+            if (
+                studentRegistryRepository.Get(
+                    sr => sr.Ssn == student.Ssn && sr.CourseId == course.CourseId && sr.Semester == course.Semester) !=
+                null)
+            {
+                // Student is already registered in the course
+                throw new DuplicateException();
+            }
+            waitingListRepository.Add(new WaitingList {CourseId = courseId, Ssn = student.Ssn});
+        }
+
+        public IEnumerable<StudentDto> GetAllStudentsOnWaitingListByCourseId(int id)
+        {
+            if (courseRepository.Get(c => c.Id == id) == null)
+            {
+                throw new NotFoundException();
+            }
+            return
+                waitingListRepository.GetMany(w => w.CourseId == id)
+                    .Join(studentRepository.ReturnDbSet(), w => w.Ssn, s => s.Ssn, (list, student) => student)
+                    .Select(st => new StudentDto {Name = st.Name, Ssn = st.Ssn});
         }
     }
 }
+ 

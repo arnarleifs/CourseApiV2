@@ -114,11 +114,28 @@ namespace CourseApi.V2.Controllers
             return StatusCode(201);
         }
 
+        /// <summary>
+        /// Adds a student on a waiting list which is available for each course, if the course is full the student can decide
+        /// to be added to a waiting list
+        /// </summary>
+        /// <param name="id">Id of the course</param>
+        /// <param name="student">Information about the student which is about to be added to the waiting list for this course</param>
+        /// <returns>The resource created or an error code indicating something went wrong.</returns>
         [HttpPost]
         [Route("{id:int}/waitinglist", Name = "AddStudentToWaitingListByCourseId")]
         public IActionResult AddStudentToWaitingListByCourseId(int id, [FromBody]StudentViewModel student)
         {
+            studentService.AddStudentToWaitingListByCourseId(id, ModelState.IsValid,
+                new StudentDto {Name = student.Name, Ssn = student.Ssn});
             return StatusCode(201);
         }
+
+        [HttpGet]
+        [Route("{id:int}/waitinglist", Name = "GetAllStudentsOnWaitingListByCourseId")]
+        public IActionResult GetAllStudentsOnWaitingListByCourseId(int id)
+        {
+            var students = studentService.GetAllStudentsOnWaitingListByCourseId(id);
+            return new ObjectResult(students);
+        } 
     }
 }
