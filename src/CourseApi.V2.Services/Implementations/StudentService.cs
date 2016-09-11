@@ -52,12 +52,13 @@ namespace CourseApi.V2.Services.Implementations
                 // The course is full
                 throw new FullException();
             }
-            if (studentRegistryRepository.Get(sr => sr.CourseId == course.CourseId && sr.Ssn == student.Ssn) == null)
+            if (studentRegistryRepository.Get(sr => sr.CourseId == course.CourseId && sr.Ssn == student.Ssn) != null)
             {
-                // Connect the user to the course, if it hasn't already
-                studentRegistryRepository.Add(new StudentRegistry {CourseId = course.CourseId, Ssn = student.Ssn, Semester = course.Semester});
-                unitOfWork.Commit();
+                throw new DuplicateException("Student already in course");
             }
+            // Connect the user to the course
+            studentRegistryRepository.Add(new StudentRegistry { CourseId = course.CourseId, Ssn = student.Ssn, Semester = course.Semester });
+            unitOfWork.Commit();
         }
 
         public IEnumerable<StudentDto> GetAllStudentsByCourseId(int id)
