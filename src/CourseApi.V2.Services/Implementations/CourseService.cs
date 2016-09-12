@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CourseApi.V2.Models.DTO;
+using CourseApi.V2.Models.Entities;
 using CourseApi.V2.Models.Exceptions;
 using CourseApi.V2.Repositories.Base;
 using CourseApi.V2.Repositories.Interfaces;
@@ -14,11 +15,13 @@ namespace CourseApi.V2.Services.Implementations
         private readonly ICourseRepository courseRepository;
         private readonly ICourseTemplateRepository courseTemplateRepository;
         private readonly IStudentService studentService;
+        private readonly IStudentRegistryRepository studentRegistryRepository;
         private readonly IUnitOfWork unitOfWork;
-        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork, IStudentService studentService, ICourseTemplateRepository courseTemplateRepository)
+        public CourseService(ICourseRepository courseRepository, IUnitOfWork unitOfWork, IStudentService studentService, ICourseTemplateRepository courseTemplateRepository, IStudentRegistryRepository studentRegistryRepository)
         {
             this.courseRepository = courseRepository;
             this.courseTemplateRepository = courseTemplateRepository;
+            this.studentRegistryRepository = studentRegistryRepository;
             this.studentService = studentService;
             this.unitOfWork = unitOfWork;
         }
@@ -56,6 +59,11 @@ namespace CourseApi.V2.Services.Implementations
                 throw new NotFoundException();
             }
             var students = studentService.GetAllStudentsByCourseId(course.Id).ToList();
+            string name = "";
+            if (courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId) != null)
+            {
+                name = courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId).Name;
+            }
             return new CourseExtendedDto
             {
                 CourseId = course.CourseId,
@@ -64,7 +72,7 @@ namespace CourseApi.V2.Services.Implementations
                 EndDate = course.EndDate,
                 Students = students,
                 NumberOfStudents = students.Count,
-                Name = courseTemplateRepository.Get(ct => ct.CourseId == course.CourseId).Name,
+                Name = name,
                 MaxStudents = course.MaxStudents
             };
         }
@@ -109,6 +117,35 @@ namespace CourseApi.V2.Services.Implementations
             }
             courseRepository.Delete(course);
             unitOfWork.Commit();
+        }
+
+        public CourseDto AddCourse(bool isValid, CourseDto course)
+        {
+            if (!isValid)
+            {
+                throw new ModelFormatException();
+            }
+            if (courseRepository.Get(c => c.CourseId == course.CourseId && c.Semester == course.Semester) != null)
+            {
+                throw new DuplicateException();
+            }
+            courseRepository.Add(new Course {CourseId = course.CourseId, Semester = course.Semester, StartDate = course.StartDate, EndDate = course.EndDate, MaxStudents = course.MaxStudents});
+            unitOfWork.Commit();
+
+            return new CourseDto
+            {
+                CourseId = course.CourseId,
+                Semester = course.Semester,
+                StartDate = course.StartDate,
+                EndDate = course.EndDate,
+                MaxStudents = course.MaxStudents,
+                NumberOfStudents = studentService.GetAllStudentsByCourseId(GetLatestId()).Count()
+            };
+        }
+
+        public int GetLatestId()
+        {
+            return courseRepository.GetAll().OrderByDescending(c => c.Id).FirstOrDefault().Id;
         }
     }
 }

@@ -56,6 +56,22 @@ namespace CourseApi.V2.Controllers
             return new ObjectResult(course);
         }
 
+        [HttpPost]
+        [Route("", Name = "AddCourse")]
+        public IActionResult AddCourse([FromBody] CourseViewModel value)
+        {
+            var course = courseService.AddCourse(ModelState.IsValid,
+                new CourseDto
+                {
+                    CourseId = value.CourseId,
+                    Semester = value.Semester,
+                    StartDate = value.StartDate,
+                    EndDate = value.EndDate,
+                    MaxStudents = value.MaxStudents
+                });
+            return new ObjectResult(course);
+        }
+
         /// <summary>
         /// Changes an existing course, must provide all the properties of the model
         /// in order for the model to be properly formatted.
@@ -68,7 +84,15 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}", Name = "UpdateCourse")]
         public IActionResult UpdateCourse(int id, [FromBody]CourseViewModel value)
         {
-            courseService.UpdateCourse(id, ModelState.IsValid, new CourseDto {CourseId = value.CourseId, Semester = value.Semester, StartDate = value.StartDate, EndDate = value.EndDate, MaxStudents = value.MaxStudents});
+            courseService.UpdateCourse(id, ModelState.IsValid,
+                new CourseDto
+                {
+                    CourseId = value.CourseId,
+                    Semester = value.Semester,
+                    StartDate = value.StartDate,
+                    EndDate = value.EndDate,
+                    MaxStudents = value.MaxStudents
+                });
             return new NoContentResult();
         }
 
@@ -115,14 +139,14 @@ namespace CourseApi.V2.Controllers
         }
 
         /// <summary>
-        /// Marks a student as removed, even though he is not removed from the database. This is all assuming that the
+        /// Marks a student as removed from course, even though he is not removed from the database. This is all assuming that the
         /// method is provided with a valid id and ssn and the student is found in the system.
         /// </summary>
         /// <param name="id">The id of the course</param>
         /// <param name="ssn">The social security number of the student. This is an icelandic number called 'kennitala', which serves a similar purpose as a social security number.</param>
         /// <returns>A relevant HTTP status code, depending on how the request was handled.</returns>
         [HttpDelete]
-        [Route("{id:int}/students/{ssn:string}", Name = "RemoveStudentByCourseId")]
+        [Route("{id:int}/students/{ssn}", Name = "RemoveStudentByCourseId")]
         public IActionResult RemoveStudentByCourseId(int id, string ssn)
         {
             studentService.RemoveStudentByCourseId(id, ssn);
@@ -145,12 +169,32 @@ namespace CourseApi.V2.Controllers
             return StatusCode(201);
         }
 
+        /// <summary>
+        /// Gets all students which are currently on a waiting list for the course
+        /// </summary>
+        /// <param name="id">The course of the id linked to the waiting list</param>
+        /// <returns>List of students or 404, if the course is not present in the database.</returns>
         [HttpGet]
         [Route("{id:int}/waitinglist", Name = "GetAllStudentsOnWaitingListByCourseId")]
         public IActionResult GetAllStudentsOnWaitingListByCourseId(int id)
         {
             var students = studentService.GetAllStudentsOnWaitingListByCourseId(id);
             return new ObjectResult(students);
-        } 
+        }
+
+        #region Hidden Region  
+
+        /// <summary>
+        /// Returns an easter egg, if you can find it.
+        /// </summary>
+        /// <returns>The one and only easter egg</returns>
+        [HttpGet]
+        [Route("easteregg", Name = "ReturnTheEasterEgg")]
+        public string ReturnTheEasterEgg()
+        {
+            return "Follow the egg...." + "http://www.geocities.ws/krazygamesite/cs_office0003.jpg";
+        }
+
+        #endregion
     }
 }

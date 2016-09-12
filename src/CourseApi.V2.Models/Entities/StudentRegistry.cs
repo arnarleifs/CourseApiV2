@@ -8,7 +8,7 @@ namespace CourseApi.V2.Models.Entities
     public class StudentRegistry
     {
         public string Ssn { get; set; }
-        public string CourseId { get; set; }
-        public int Semester { get; set; }
+        public int CourseId { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

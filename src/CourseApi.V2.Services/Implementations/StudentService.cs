@@ -46,18 +46,24 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException("Student was not found in the system");
             }
-            var courseCount = studentRegistryRepository.GetMany(sr => sr.CourseId == course.CourseId && sr.Semester == course.Semester).Count();
+            var courseCount = studentRegistryRepository.GetMany(sr => sr.CourseId == id).Count();
             if (courseCount >= course.MaxStudents)
             {
                 // The course is full
                 throw new FullException();
             }
-            if (studentRegistryRepository.Get(sr => sr.CourseId == course.CourseId && sr.Ssn == student.Ssn) != null)
+            if (studentRegistryRepository.Get(sr => sr.CourseId == id && sr.Ssn == student.Ssn) != null)
             {
                 throw new DuplicateException("Student already in course");
             }
+            if (waitingListRepository.Get(w => w.Ssn == student.Ssn && w.CourseId == id) != null)
+            {
+                // Remove student of waiting list
+                waitingListRepository.Delete(w => w.Ssn == student.Ssn && w.CourseId == id);
+                unitOfWork.Commit();
+            }
             // Connect the user to the course
-            studentRegistryRepository.Add(new StudentRegistry { CourseId = course.CourseId, Ssn = student.Ssn, Semester = course.Semester });
+            studentRegistryRepository.Add(new StudentRegistry { CourseId = id, Ssn = student.Ssn });
             unitOfWork.Commit();
         }
 
@@ -71,10 +77,9 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException();
             }
-            var course = courseRepository.Get(c => c.Id == id);
 
             var students =
-                studentRegistryRepository.GetMany(sr => sr.CourseId == course.CourseId)
+                studentRegistryRepository.GetMany(sr => sr.CourseId == id && sr.IsDeleted == false)
                     .Join(studentRepository.ReturnDbSet(), sr => sr.Ssn, s => s.Ssn, (registry, student) => student)
                     .Select(cdto => new StudentDto
                     {
@@ -107,7 +112,7 @@ namespace CourseApi.V2.Services.Implementations
             }
             if (
                 studentRegistryRepository.Get(
-                    sr => sr.Ssn == student.Ssn && sr.CourseId == course.CourseId && sr.Semester == course.Semester) !=
+                    sr => sr.Ssn == student.Ssn && sr.CourseId == courseId) !=
                 null)
             {
                 // Student is already registered in the course
@@ -140,8 +145,7 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException();
             }
-
+            studentRegistryRepository.MarkStudentAsDeleted(courseId, ssn);
         }
     }
 }
- 
