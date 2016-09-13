@@ -134,7 +134,7 @@ namespace CourseApi.V2.Controllers
         [Route("{id:int}/students", Name = "AddStudentByCourseId")]
         public IActionResult AddStudentByCourseId(int id, [FromBody]StudentViewModel student)
         {
-            studentService.AddStudentByCourseId(id, ModelState.IsValid, new StudentDto { Ssn = student.Ssn, Name = student.Name });
+            studentService.AddStudentByCourseId(id, ModelState.IsValid, new StudentDto { Ssn = student.Ssn });
             return StatusCode(201);
         }
 
@@ -165,7 +165,7 @@ namespace CourseApi.V2.Controllers
         public IActionResult AddStudentToWaitingListByCourseId(int id, [FromBody]StudentViewModel student)
         {
             studentService.AddStudentToWaitingListByCourseId(id, ModelState.IsValid,
-                new StudentDto {Name = student.Name, Ssn = student.Ssn});
+                new StudentDto {Ssn = student.Ssn});
             return StatusCode(201);
         }
 

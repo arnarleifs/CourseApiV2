@@ -9,6 +9,6 @@ namespace CourseApi.V2.Repositories.Interfaces
 {
     public interface IStudentRegistryRepository : IRepository<StudentRegistry>
     {
-        void MarkStudentAsDeleted(int courseId, string ssn);
+        void MarkStudentAsDeleted(int courseId, string ssn, bool deleted);
     }
 }

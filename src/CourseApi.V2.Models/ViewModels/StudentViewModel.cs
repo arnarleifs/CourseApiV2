@@ -13,7 +13,5 @@ namespace CourseApi.V2.Models.ViewModels
     {
         [Required]
         public string Ssn { get; set; }
-        [Required]
-        public string Name { get; set; }
     }
 }

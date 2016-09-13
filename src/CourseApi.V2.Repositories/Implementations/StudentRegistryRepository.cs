@@ -11,10 +11,10 @@ namespace CourseApi.V2.Repositories.Implementations
     public class StudentRegistryRepository : RepositoryBase<StudentRegistry>, IStudentRegistryRepository
     {
         public StudentRegistryRepository(IDbFactory dbFactory) : base(dbFactory) { }
-        public void MarkStudentAsDeleted(int courseId, string ssn)
+        public void MarkStudentAsDeleted(int courseId, string ssn, bool deleted)
         {
             var studentRegistry = Get(s => s.CourseId == courseId && s.Ssn == ssn);
-            studentRegistry.IsDeleted = true;
+            studentRegistry.IsDeleted = deleted;
             Update(studentRegistry);
         }
     }
