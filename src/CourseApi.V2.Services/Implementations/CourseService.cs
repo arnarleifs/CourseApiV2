@@ -136,7 +136,7 @@ namespace CourseApi.V2.Services.Implementations
 
             return new CourseDto
             {
-                Id = course.Id,
+                Id = GetLatestId(),
                 CourseId = course.CourseId,
                 Semester = course.Semester,
                 StartDate = course.StartDate,

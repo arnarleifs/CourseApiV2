@@ -17,6 +17,6 @@ namespace CourseApi.V2.Models.Exceptions
             Message = message;
         }
 
-        public string Message { get; }
+        public override string Message { get; }
     }
 }

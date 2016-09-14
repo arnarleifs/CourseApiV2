@@ -46,7 +46,7 @@ namespace CourseApi.V2.Services.Implementations
             {
                 throw new NotFoundException("Student was not found in the system");
             }
-            var courseCount = studentRegistryRepository.GetMany(sr => sr.CourseId == id).Count();
+            var courseCount = studentRegistryRepository.GetMany(sr => sr.CourseId == id && !sr.IsDeleted).Count();
             if (courseCount >= course.MaxStudents)
             {
                 // The course is full
@@ -118,10 +118,8 @@ namespace CourseApi.V2.Services.Implementations
                 // He is already in the waiting list
                 throw new DuplicateException();
             }
-            if (
-                studentRegistryRepository.Get(
-                    sr => sr.Ssn == student.Ssn && sr.CourseId == courseId) !=
-                null)
+            var studentRegistry = studentRegistryRepository.Get(sr => sr.Ssn == student.Ssn && sr.CourseId == courseId);
+            if (studentRegistry != null && !studentRegistry.IsDeleted)
             {
                 // Student is already registered in the course
                 throw new DuplicateException();

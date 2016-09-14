@@ -27,7 +27,7 @@ namespace CourseApi.V2.Filters
             }
             else if (exceptionType == typeof(DuplicateException))
             {
-                status = HttpStatusCode.Conflict;
+                status = HttpStatusCode.PreconditionFailed;
             }
             else
             {
