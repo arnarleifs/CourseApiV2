@@ -38,6 +38,7 @@ namespace CourseApi.V2.Services.Implementations
                         cd =>
                             new CourseDto
                             {
+                                Id = cd.Id,
                                 CourseId = cd.CourseId,
                                 Semester = cd.Semester,
                                 StartDate = cd.StartDate,
@@ -66,6 +67,7 @@ namespace CourseApi.V2.Services.Implementations
             }
             return new CourseExtendedDto
             {
+                Id = course.Id,
                 CourseId = course.CourseId,
                 Semester = course.Semester,
                 StartDate = course.StartDate,
@@ -134,6 +136,7 @@ namespace CourseApi.V2.Services.Implementations
 
             return new CourseDto
             {
+                Id = course.Id,
                 CourseId = course.CourseId,
                 Semester = course.Semester,
                 StartDate = course.StartDate,

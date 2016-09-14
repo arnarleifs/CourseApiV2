@@ -12,7 +12,7 @@ namespace CourseApi.V2.Models.ViewModels
     public class CourseViewModel
     {
         [Required]
-        public string CourseId { get; set; }
+        public string TemplateId { get; set; }
         [Required]
         public int Semester { get; set; }
         [Required]

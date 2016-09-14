@@ -56,20 +56,25 @@ namespace CourseApi.V2.Controllers
             return new ObjectResult(course);
         }
 
+        /// <summary>
+        /// Adds a new course in to the system
+        /// </summary>
+        /// <param name="value">This is the CourseViewModel object</param>
+        /// <returns>The location of the newly created course, given everything was successful.</returns>
         [HttpPost]
         [Route("", Name = "AddCourse")]
-        public IActionResult AddCourse([FromBody] CourseViewModel value)
+        public IActionResult AddCourse([FromBody]CourseViewModel value)
         {
             var course = courseService.AddCourse(ModelState.IsValid,
                 new CourseDto
                 {
-                    CourseId = value.CourseId,
+                    CourseId = value.TemplateId,
                     Semester = value.Semester,
                     StartDate = value.StartDate,
                     EndDate = value.EndDate,
                     MaxStudents = value.MaxStudents
                 });
-            return new ObjectResult(course);
+            return Created(Url.Link("GetCourseById", new {id = course.Id}), course);
         }
 
         /// <summary>
@@ -87,7 +92,7 @@ namespace CourseApi.V2.Controllers
             courseService.UpdateCourse(id, ModelState.IsValid,
                 new CourseDto
                 {
-                    CourseId = value.CourseId,
+                    CourseId = value.TemplateId,
                     Semester = value.Semester,
                     StartDate = value.StartDate,
                     EndDate = value.EndDate,

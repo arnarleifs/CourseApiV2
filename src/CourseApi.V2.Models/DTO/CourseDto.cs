@@ -10,6 +10,7 @@ namespace CourseApi.V2.Models.DTO
     /// </summary>
     public class CourseDto
     {
+        public int Id { get; set; }
         public string CourseId { get; set; }
         public int Semester { get; set; }
         public DateTime StartDate { get; set; }
