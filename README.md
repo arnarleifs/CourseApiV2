@@ -10,12 +10,16 @@ Educational purpose - This is an API connected to a SQLite database file. The pu
 ## Available methods
 
 * http://localhost:5000/api/v1/courses (GET) -> Fetches all the courses on the latest semester
+* http://localhost:5000/api/v1/courses (POST) -> Creates a new instance of a course
 * http://localhost:5000/api/v1/courses?semester=20152 (GET) -> Same method, but instead uses a filter for which semester it wants to filter by
 * http://localhost:5000/api/v1/courses/{id:int} (GET) -> Gets a specific course with more detailed information
 * http://localhost:5000/api/v1/courses/{id:int} (PUT) -> Updates a course with the given id, the new fields must be in HTTP body
 * http://localhost:5000/api/v1/courses/{id:int} (DELETE) -> Deletes the course with the given id
 * http://localhost:5000/api/v1/courses/{id:int}/students (GET) -> Gets all students registered in the given course
 * http://localhost:5000/api/v1/courses/{id:int}/students (POST) -> Adds a new student to the given course
+* http://localhost:5000/api/v1/courses/{id:int}/students/{ssn} (DELETE) -> Removes a student from a given course
+* http://localhost:5000/api/v1/courses/{id:int}/waitinglist (POST) -> Adds a student to a waiting list
+* http://localhost:5000/api/v1/courses/{id:int}/waitinglist (GET) -> Gets all students currently on the waiting list for the given course
 
 ## Documentation
 
