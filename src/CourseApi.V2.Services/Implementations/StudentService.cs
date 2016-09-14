@@ -53,7 +53,7 @@ namespace CourseApi.V2.Services.Implementations
                 throw new FullException();
             }
             var studentRegistered = studentRegistryRepository.Get(sr => sr.CourseId == id && sr.Ssn == student.Ssn);
-            if (studentRegistered.IsDeleted == false)
+            if (studentRegistered != null && !studentRegistered.IsDeleted)
             {
                 throw new DuplicateException("Student already in course");
             }
@@ -64,7 +64,7 @@ namespace CourseApi.V2.Services.Implementations
                 unitOfWork.Commit();
             }
             // Connect the user to the course
-            if (studentRegistered.IsDeleted)
+            if (studentRegistered != null && studentRegistered.IsDeleted)
             {
                 studentRegistryRepository.MarkStudentAsDeleted(id, student.Ssn, false);
             }
